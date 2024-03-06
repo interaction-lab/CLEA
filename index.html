@@ -4,27 +4,27 @@
   <meta charset="utf-8">
   <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
   <!-- Replace the content tag with appropriate information -->
-  <meta name="description" content="DESCRIPTION META TAG">
-  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
-  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
-  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <meta name="description" content="Project website for the exploratory search for learning representations project">
+  <meta property="og:title" content="CLEA: Contrastive Learning from Exploratory Actions"/>
+  <meta property="og:description" content="Project website for the exploratory search for learning representations project"/>
+  <meta property="og:url" content="https://interaction-lab.github.io/CLEA/"/>
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
   <meta property="og:image" content="static/image/your_banner_image.png" />
   <meta property="og:image:width" content="1200"/>
   <meta property="og:image:height" content="630"/>
 
 
-  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
-  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <meta name="twitter:title" content="CLEA: Contrastive Learning from Exploratory Actions">
+  <meta name="twitter:description" content="Project website for the exploratory search for learning representations project">
   <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
-  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:image" content="static/images/front-figure.png">
   <meta name="twitter:card" content="summary_large_image">
   <!-- Keywords for your paper to be indexed by-->
-  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="keywords" content="Contrastive Learning, Exploratory Search, Human Preferences">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-  <title>Academic Project Page</title>
+  <title>CLEA: Contrastive Learning from Exploratory Actions</title>
   <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
   rel="stylesheet">
@@ -187,23 +187,6 @@
 
   </div>
 </section> -->
-
-<!-- Teaser video-->
-<!-- <section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <video poster="" id="tree" autoplay controls muted loop height="100%">
-        <source src="static/videos/banner_video.mp4"
-        type="video/mp4">
-      </video>
-      <h2 class="subtitle has-text-centered">
-        Aliquam vitae elit ullamcorper tellus egestas pellentesque. Ut lacus tellus, maximus vel lectus at, placerat pretium mi. Maecenas dignissim tincidunt vestibulum. Sed consequat hendrerit nisl ut maximus. 
-      </h2>
-    </div>
-  </div>
-</section> -->
-<!-- End teaser video -->
-
 <!-- Paper abstract -->
 <section class="section hero is-light">
   <div class="container is-max-desktop">
@@ -229,6 +212,40 @@
   </div>
 </section>
 <!-- End paper abstract -->
+
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        Robots are expected to operate in unique and diverse contexts. Each context has a set of preferences and expectations. We want to learn representations for robot behaviors that facilitate user-driven customization of the robot in situ.
+      </h2>
+      <div style="text-align: center;"><img src="static/images/study_setup.jpg" alt="A user uses an ipad to design signals for a robot"/></div>
+      <h2 class="subtitle has-text-centered">
+        We ground our approach in a signal design task, where 25 participants designed signals for a robot that assists them during an item finding task. Participants designed four signals: idle, searching, has item, and has information.
+Each signal consisted of three unique modalities: video, audio, and movement. 
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        We leverage the insight that users make exploratory actions when designing robot behaviors. In particular, users look at potentially good options in detail, and disregard options that are not appropriate.
+      </h2>
+      <img src="static/images/front-figure.png" alt="an overview of the proposed framework. "/>
+      <h2 class="subtitle has-text-centered">
+        We construct a set of the data that the user explores, and the set of the data that the user ignores. We use these sets to sample contrastive triplets. Two signal components (video, audio, or movement) are draw from the same set and used as the anchor and positive examples. One signal component is sampled from the other set and used as the negative example. We use a contrastive objective to learn a representation:
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+
 
 
 <!-- Image carousel -->
@@ -360,7 +377,7 @@ End paper poster -->
 
           <p>
             This page was built using the <a href="https://github.com/vinthony/project-page-template">modification version</a> of <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> from <a href="https://github.com/vinthony">vinthony</a>.
-            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            You are free to borrow the code for this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
             Commons Attribution-ShareAlike 4.0 International License</a>.
           </p>
 
