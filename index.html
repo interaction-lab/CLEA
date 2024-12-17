@@ -85,7 +85,7 @@
                     <div class="publication-links">
                          <!-- Arxiv PDF link -->
                       <span class="link-block">
-                        <a href="static/pdfs/CLEA.pdf" target="_blank"
+                        <a href="static/pdfs/HRI_CLEA.pdf" target="_blank"
                         class="external-link ">
                         <span class="icon">
                           <i class="fas fa-file-pdf"></i>
@@ -96,7 +96,7 @@
 
                     <!-- Supplementary PDF link -->
                     <span class="link-block">
-                      <a href="static/pdfs/CLEA.pdf" target="_blank"
+                      <a href="static/pdfs/HRI_CLEA_appendix.pdf" target="_blank"
                       class="external-link ">
                       <span class="icon">
                         <i class="fas fa-file-pdf"></i>
@@ -206,6 +206,7 @@
             We propose a method to learn representations called <i>Contrastive Learning from Exploratory Actions</i> (CLEA) that leverages this exploratory search data to learn representations of robot behaviors that facilitate user-driven customization. 
             We show that CLEA can learn representations that satisfy the criteria of effective robot representations: completeness, simplicity, minimality, and interpretability.
             CLEA representations outperform self-supervised representations in their completeness, simplicity, minimality, and interpretability.
+          
           </p>
         </div>
       </div>
@@ -234,40 +235,68 @@
   <div class="container is-max-desktop">
     <div class="hero-body">
       <h2 class="subtitle has-text-centered">
-        Robots are expected to operate in unique and diverse contexts. Each context has a 
-        set of preferences and expectations. We want to learn representations for robot 
-        behaviors that facilitate user-driven customization of the robot in situ.
+        The above video shows the interface users used to design signals for a robot. 
+        The robot helps users with an item finding task, and users showed diverse preferences and expectations for how the robot
+        should behave. While using this interface, users subtly expressed their preferences for the robot's behavior by exploring 
+        different signal options before finally settling on their preferred signal.
+        In this work, <b>we harness this subtle source of information to learn user-aligned representations of robot behaviors</b>.
+        By using features that are more aligned with users, these users can more easily customize the robot to their preferences. Because it is easier to design signals,
+        users are then able to provide even more information on their preferences. The cycle results in continously improving both the robot customization process and the features that facilitate robot learning.
       </h2>
-      <div style="text-align: center;"><img src="static/images/study_setup.jpg" alt="A user uses an ipad to design signals for a robot"/></div>
+      <img src="static/images/framework.png" alt="an overview of the proposed framework. "/>
       <h2 class="subtitle has-text-centered">
-        We ground our approach in a signal design task, where 25 participants designed signals for a 
-        robot that assists them during an item finding task. Participants designed four signals: idle, 
-        searching, has item, and has information.
-        Each signal consisted of three unique modalities: video, audio, and movement. 
+        <a href="https://dl.acm.org/doi/10.1145/3610977.3634987">A good feature representation has four criteria</a>: completeness, simplicity, minimality, and explainability.
+        <b>Completeness</b> refers to the ability of the representation to capture all the information needed to predict the user's preferences. 
+        <b>Simplicity</b> refers to the ability of the representation to reflect user's preferences with a simple linear model. 
+        <b>Minimality</b> refers to the ability of the representation to be concise and not contain redundant information. 
+        <b>Explainability</b> refers to the ability of the representation to be readily used with existing explainability techniques, for example "explanation by example".
       </h2>
-    </div>
+
+      <h2 class="subtitle has-text-centered">
+         A simple alternative to CLEA is to learn feature representations directly from data using self-supervised approaches like autoencoders or variational autoencoders.
+         Other options are to use pre-trained models such as X-CLIP or Audio Spectrogram Transformers. We found that <b>using the data directly from users
+         allows us to learn representations that are better than these baselines </b> on all four criteria, highlighting the importance of collecting diverse user data.
+      </h2>
+
+      <h2 class="subtitle has-text-centered">
+        To evaluate CLEA, we collected a dataset of user rankings for robot signals. We then 
+        trained a model to predict these rankings using the learned representations. We show the results for
+        the four criteria below.
+     </h2>
+
+      <img src="static/images/completeness.png" alt="a graph of test preference accuracy for each method"/>
+      <h2 class="subtitle has-text-centered">
+        <b>Completeness.</b> We show that CLEA representations are more complete than self-supervised representations in the graph above.
+        We evaluated this using the <i>Test Preference Accuracy</i> (TPA), the ability of a model to predict user choices on a held-out test set.
+        We show that CLEA representations are more complete than self-supervised representations because they achieve a higher TPA.
+     </h2>
+
+     <img src="static/images/minimality+simplicity.png" alt="A table and graph of AUC alignemnt for each method. The table contains dimensions 8,16,32,64,128. The graph shows the results for dimension 8 in detail."/>
+      <h2 class="subtitle has-text-centered">
+      <b>Simplicity and Minimality.</b> We show that CLEA representations are simpler and more minimal than self-supervised representations in the graph above.
+      We evaluated this using the <i>Area Under the Alignment Curve</i> (AUC Alignment). AUC Alignment measures the ability of a model to predict user choices on a held-out test set using a simple linear model.
+      We learn the linear model by using a bayesian update rule to update the model's weights. We show that CLEA representations are <b>simpler</b> than self-supervised representations because 
+      they achieve a higher AUC Alignment across all dimesions and modalities. They are more <b>minimal</b> than self-supervised approaches because they achieve a higher AUC Alignment with fewer dimensions.
+      </h2>
+
+
+      <img src="static/images/explainability.png" alt="A graph of cosine similarities between top-ranked signals and exemplar signals"/>
+      <h2 class="subtitle has-text-centered">
+      <b>Explainability.</b> We adopt the framing of explanation by example to evaluate explainability. 
+      A feature space is explainable if test examples are nearby training examples. We use the cosine similarity between 
+      the top-ranked signals and exemplar signals to evaluate explainability. We found that the CLEA representations 
+      are more explainable than self-supervised representations because they achieve a higher cosine similarity.
+      </h2>
+
+      <h2 class="subtitle has-text-centered">
+        Future work may explore how feature spaces may transfer across different robot tasks, 
+        across different robot embodiments, or across users. We hope that the future of robotics
+        will be more user-aligned, and that robots will be able to adapt to diverse user preferences.
+      </h2>
+
   </div>
 </section>
 
-<!-- Teaser video-->
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <h2 class="subtitle has-text-centered">
-        We leverage the insight that users make exploratory actions when designing robot behaviors. 
-        In particular, users look at potentially good options in detail, and disregard options that are not appropriate.
-      </h2>
-      <img src="static/images/front-figure.png" alt="an overview of the proposed framework. "/>
-      <h2 class="subtitle has-text-centered">
-        We construct a set of the data that the user explores, and the set of the data that the user ignores. 
-        We use these sets to sample contrastive triplets. Two signal components (video, audio, or movement) 
-        are draw from the same set and used as the anchor and positive examples. One signal component is sampled 
-        from the other set and used as the negative example. We use a contrastive objective to learn representations.
-      </h2>
-    </div>
-  </div>
-</section>
-<!-- End teaser video -->
 
 
 
