@@ -61,8 +61,8 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="xtitle is-1 publication-title">Contrastive Learning from Exploratory Actions:</h1>
-            <h2 class="xtitle is-2 publication-title">Leveraging Natural Interactions for Preference Elicitation</h2>
+            <h1 class="xtitle is-size-2 publication-title">Contrastive Learning from Exploratory Actions:</h1>
+            <h2 class="xtitle is-size-3 publication-title">Leveraging Natural Interactions for Preference Elicitation</h2>
 
             <div class="is-size-5 publication-authors">
               <!-- Paper authors -->
@@ -199,16 +199,13 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            Robots that interact with humans must adapt to the different preferences of human users. 
-            However, the time and effort needed for non-expert users to specify their preferences for a robot 
-            are a barrier to effective robot adaptation. 
-            Better representations of user preferences in the form of learned features have the potential to 
-            facilitate robot adaptation. 
-            In this work, we propose a method to learn representations using Contrastive Learning from Exploratory 
-            Actions (CLEA) that leverages data automatically collected from an interactive signal design process 
-            to better learn user preferences. 
-            We show that using data collected automatically from the design process can aid with learning user 
-            preferences compared to purely self-supervised learning.
+            Robots that interact with humans must adapt to diverse user preferences.
+            Learning representations of robot behaviors can facilitate user-driven customization of the robot, but machine learning techniques require large amounts of manually labelled data.
+            Manually labelled data can be difficult to obtain because users are often unmotivated to engage in monotonous labeling processes.
+            In this work, we identify that <b>users learning to use a new robot automatically engage in <i>exploratory search processes</i> that generate data which can be used in place of manually-labelled data</b>. 
+            We propose a method to learn representations called <i>Contrastive Learning from Exploratory Actions</i> (CLEA) that leverages this exploratory search data to learn representations of robot behaviors that facilitate user-driven customization. 
+            We show that CLEA can learn representations that satisfy the criteria of effective robot representations: completeness, simplicity, minimality, and interpretability.
+            CLEA representations outperform self-supervised representations in their completeness, simplicity, minimality, and interpretability.
           </p>
         </div>
       </div>
@@ -216,6 +213,21 @@
   </div>
 </section>
 <!-- End paper abstract -->
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <br>
+      <video poster="" id="video1" autoplay controls loop height="100%">
+        <source src="static/videos/UserStudyInfo.mp4"
+        type="video/mp4">
+      </video>
+
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
 
 
 <section class="hero teaser">
@@ -299,23 +311,22 @@
 
 
 <!-- Youtube video -->
-<section class="hero is-small is-light">
+<!-- <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
       <!-- Paper video. -->
-      <h2 class="title is-3">Video Presentation</h2>
+      <!-- <h2 class="title is-3">Video Presentation</h2>
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
           
           <div class="publication-video">
-            <!-- Youtube embed code here -->
             <iframe src="https://www.youtube.com/embed/IOJ1xDy0DEE?si=0sbrTXgzy0CU5u8O" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</section> -->
 <!-- End youtube video -->
 
 
