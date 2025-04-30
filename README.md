@@ -1,5 +1,7 @@
 ## CLEA: Contrastive Learning from Exploratory Actions
-This is the project page for the HRI paper "Using Exploratory Search to Learn Representations for Human Preferences".
+This is the project page for the 2025 HRI best technical paper nominee "Contrastive Learning from Exploratory Actions: Leveraging Natural Interactions for Preference Elicitation".
+
+[https://interaction-lab.github.io/CLEA/](https://interaction-lab.github.io/CLEA/)
 
 ### Acknowledgments
 Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page and [eliahuhorwitz/Academic-project-page-template](https://github.com/eliahuhorwitz/Academic-project-page-template).
