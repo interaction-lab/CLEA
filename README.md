@@ -1,5 +1,5 @@
 ## CLEA: Contrastive Learning from Exploratory Actions
-This is the project page for the HRI LBR paper "Using Exploratory Search to Learn Representations for Human Preferences".
+This is the project page for the HRI paper "Using Exploratory Search to Learn Representations for Human Preferences".
 
 ### Acknowledgments
 Parts of this project page were adopted from the [Nerfies](https://nerfies.github.io/) page and [eliahuhorwitz/Academic-project-page-template](https://github.com/eliahuhorwitz/Academic-project-page-template).
