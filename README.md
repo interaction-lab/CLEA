@@ -24,7 +24,7 @@ This setup is generally quite excessive for this project. Many of the original e
 
 **Software**
 - Python 3.8+ (see [`src/README.md`](src/README.md) for setup instructions and [`src/requirements.txt`](src/requirements.txt) for the full dependency list)
-- Conda recommended for environment management
+- Conda recommended for environment management, though you are welcome to port this to uv if you prefer!
 - PyTorch; a CUDA-capable GPU is recommended for training but the training scripts fall back to CPU automatically if none is available.
 
 **Hardware**
