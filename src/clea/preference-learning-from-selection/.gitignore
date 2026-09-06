@@ -1,0 +1,17 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+refs*
+.coverage
+junit*
+htmlcov*
+*egg-info*
+.pytest_cache*
+coverage.xml
+.ipynb_checkpoints*
+
+examples/learn_MNIST_preference/data/*
+examples/learn_voice_preference/data/*
+examples/learn_voice_preference/interpretable_features/data/*

@@ -1,0 +1,170 @@
+"""
+Visual (image) representation models.
+
+All models accept (B, C, H, W) tensors of normalized image frames.
+"""
+
+import torch
+import torch.nn as nn
+
+
+class RawImageEncoder(nn.Module):
+    """Convolutional encoder mapping an image to a fixed-size embedding."""
+
+    def __init__(self, input_dim, hidden_dim=256, latent_dim=32, device='cuda:0'):
+        super().__init__()
+        self.device = device
+        self.input_dim = input_dim
+
+        self.conv_layers = nn.Sequential(
+            nn.Conv2d(3, 16, kernel_size=(16, 16), stride=(4, 4)),
+            nn.LeakyReLU(),
+            nn.Conv2d(16, 32, kernel_size=(8, 8), stride=(4, 4)),
+            nn.BatchNorm2d(32),
+            nn.LeakyReLU(),
+            nn.Conv2d(32, 64, kernel_size=(4, 4), stride=(2, 2)),
+            nn.BatchNorm2d(64),
+            nn.LeakyReLU(),
+        )
+        self.to(self.device)
+        intermediate_size = self.get_intermediate_size()
+
+        self.flat_embeds = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(intermediate_size, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, latent_dim),
+        )
+
+    def get_intermediate_size(self):
+        return nn.Flatten()(
+            self.conv_layers(torch.zeros([1, *self.input_dim], device=self.device))
+        ).size(1)
+
+    def get_reshape_size(self):
+        return self.conv_layers(
+            torch.zeros([1, *self.input_dim], device=self.device)
+        ).shape[1:]
+
+    def forward(self, x):
+        return self.flat_embeds(self.conv_layers(x))
+
+    def encode(self, x):
+        return self.forward(x)
+
+
+class RawImageDecoder(nn.Module):
+    """Transposed-conv decoder mapping an embedding back to an image."""
+
+    def __init__(self, intermediate_size, reshape_size, hidden_dim=256, latent_dim=32,
+                 device='cuda:0'):
+        super().__init__()
+        self.device = device
+        self.reshape_size = reshape_size
+
+        self.flat_embeds = nn.Sequential(
+            nn.Linear(latent_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, intermediate_size),
+        )
+
+        self.conv_transpose_layers = nn.Sequential(
+            nn.BatchNorm2d(64),
+            nn.ConvTranspose2d(64, 32, kernel_size=(4, 4), stride=(2, 2)),
+            nn.LeakyReLU(),
+            nn.BatchNorm2d(32),
+            nn.ConvTranspose2d(32, 16, kernel_size=(8, 8), stride=(4, 4), output_padding=(1, 1)),
+            nn.LeakyReLU(),
+            nn.ConvTranspose2d(16, 3, kernel_size=(16, 16), stride=(4, 4), output_padding=(0, 0)),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x):
+        x = self.flat_embeds(x)
+        return self.conv_transpose_layers(x.reshape(-1, *self.reshape_size))
+
+
+class RawImageAE(nn.Module):
+    """Autoencoder over raw image frames."""
+
+    def __init__(self, input_dim, hidden_dim=256, latent_dim=32, device='cuda:0'):
+        super().__init__()
+        self.device = device
+        self.encoder = RawImageEncoder(input_dim, hidden_dim, latent_dim, device)
+        self.decoder = RawImageDecoder(
+            self.encoder.get_intermediate_size(),
+            self.encoder.get_reshape_size(),
+            hidden_dim, latent_dim, device,
+        )
+
+    def forward(self, x):
+        return self.decoder(self.encoder(x))
+
+    def encode(self, x):
+        return self.encoder(x)
+
+    def decode(self, x):
+        return self.decoder(x)
+
+
+class RawImageVAE(nn.Module):
+    """
+    Variational autoencoder over raw image frames.
+
+    The encoder outputs 2*latent_dim values: the first half are means, the
+    second half are log-standard-deviations.
+    """
+
+    def __init__(self, input_dim, hidden_dim=256, latent_dim=32, beta=1.0, device='cuda:0'):
+        super().__init__()
+        self.device = device
+        self.nz = latent_dim
+        self.beta = beta
+
+        self.encoder = RawImageEncoder(input_dim, hidden_dim, 2 * latent_dim, device)
+        self.decoder = RawImageDecoder(
+            self.encoder.get_intermediate_size(),
+            self.encoder.get_reshape_size(),
+            hidden_dim, latent_dim, device,
+        )
+
+    def forward(self, x):
+        q = self.encoder(x)
+        z = q[:, :self.nz] + torch.exp(q[:, self.nz:]) * torch.randn(
+            [q.shape[0], self.nz], device=self.device
+        )
+        return {'q': q, 'rec': self.decoder(z)}
+
+    def encode(self, x):
+        return self.encoder(x)[:, :self.nz]
+
+    def kl_divergence(self, mu1, log_sigma1, mu2, log_sigma2):
+        """KL[p||q] between two Gaussians parameterised by (mu, log_sigma)."""
+        return (log_sigma2 - log_sigma1) + (
+            torch.exp(log_sigma1) ** 2 + (mu1 - mu2) ** 2
+        ) / (2 * torch.exp(log_sigma2) ** 2) - 0.5
+
+    def vae_loss(self, a_output, p_output, n_output, a_label, p_label, n_label):
+        a_q, a_recon = a_output['q'], a_output['rec']
+        p_q, p_recon = p_output['q'], p_output['rec']
+        n_q, n_recon = n_output['q'], n_output['rec']
+
+        rec_loss = (nn.MSELoss()(a_recon, a_label)
+                    + nn.MSELoss()(p_recon, p_label)
+                    + nn.MSELoss()(n_recon, n_label))
+
+        a_m, a_dev = a_q[:, :self.nz], a_q[:, self.nz:]
+        p_m, p_dev = p_q[:, :self.nz], p_q[:, self.nz:]
+        n_m, n_dev = n_q[:, :self.nz], n_q[:, self.nz:]
+        zeros_m = torch.zeros((a_q.shape[0], self.nz), device=self.device)
+        zeros_dev = torch.zeros((a_q.shape[0], self.nz), device=self.device)
+
+        kl_loss = (self.kl_divergence(a_m, a_dev, zeros_m, zeros_dev).mean()
+                   + self.kl_divergence(p_m, p_dev, zeros_m, zeros_dev).mean()
+                   + self.kl_divergence(n_m, n_dev, zeros_m, zeros_dev).mean())
+
+        return rec_loss + self.beta * kl_loss

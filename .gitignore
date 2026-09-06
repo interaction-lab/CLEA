@@ -1,0 +1,20 @@
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Fresh output from training_scripts/ and evaluation_scripts/ (can be regenerated via
+# the pipeline documented in src/README.md). The cached reproducibility
+# snapshot is lcoated in src/pregenerated_results/.
+src/results/
+src/pregenerated_results/plots/
+src/results_collapse_fixed_backup/
+
+# Local Claude Code state
+.claude/
+
+# Local reference material (not part of the release)
+reference/
+references/

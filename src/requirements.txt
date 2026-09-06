@@ -1,0 +1,16 @@
+torch
+torchvision
+torchmetrics
+pandas
+numpy
+scipy
+scikit-learn
+Pillow
+tqdm
+matplotlib
+seaborn
+pingouin
+
+# irlpreference (required by generate_linear_results.py / eval_stats.py) is not
+# on PyPI -- install the vendored copy instead:
+#   cd clea/preference-learning-from-selection && pip install -e .
